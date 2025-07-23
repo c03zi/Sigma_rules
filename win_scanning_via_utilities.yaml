@@ -1,0 +1,28 @@
+title: Indirect infrastructure scanning via utilities
+id: d40539a2-fa60-4426-8aae-54c6f9a48d9b
+status: experimental
+description: Indirect scanning via calc.exe using the ping utility
+references: 
+author: c03zi
+date: 2025-04-10
+tags:
+    - attack.t1059.003
+    - attack.t1018
+logsource:
+    category: process_creation
+    product: windows
+    service: sysmon
+detection:
+    selection:
+        ParentCommandLine|startswith: 'C:\Windows\System32\'
+        CommandLine|contains: 
+            - 'ping'
+            - 'tracert'
+            - 'arp'
+            - 'netstat'
+            - 'nslookup'
+    condition: selection
+falsepositives:
+    - pentest
+    - inventory
+level: critical

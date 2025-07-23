@@ -1,0 +1,39 @@
+action: global
+title: SharePoint ToolShell
+id: 2e47d77c-c166-4fd9-a11f-7edaee9c344b
+status: experimental
+description: Detects ToolShell in SharePoint thats exploits CVE-2025-53770 and CVE-2025-53771
+references:
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-53770
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-53771
+    - https://www.sentinelone.com/blog/sharepoint-toolshell-zero-day-exploited-in-the-wild-targets-enterprise-servers/
+    - https://rt-solar.ru/solar-4rays/blog/5721/
+author: c03zi
+date: 2025-07-22
+tags:
+    - attack.persistence
+    - attack.t1190
+detection:
+    condition: 1 of them
+falsepositives:
+    - Unknown
+level: critical
+---
+logsource:
+    product: windows
+    service: sysmon
+detection:
+    selection:
+        CommandLine|contains:
+            - '> C:\PROGRA~1\COMMON~1\MICROS~1\WEBSER~1\15\TEMPLATE\LAYOUTS\'
+            - '> C:\PROGRA~1\COMMON~1\MICROS~1\WEBSER~1\16\TEMPLATE\LAYOUTS\'
+---
+logsource:
+    product: windows
+    service: powershell
+    description: 'Script block logging must be enabled'
+detection:
+    keywords:
+        Message: 
+            - '*C:\PROGRA~1\COMMON~1\MICROS~1\WEBSER~1\15\TEMPLATE\LAYOUTS\spinstall0.aspx'
+            - '*C:\PROGRA~1\COMMON~1\MICROS~1\WEBSER~1\16\TEMPLATE\LAYOUTS\spinstall0.aspx'

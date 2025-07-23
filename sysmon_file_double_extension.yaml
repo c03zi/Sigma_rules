@@ -1,0 +1,33 @@
+title: Hiding files via a double extension
+id: 5e5a62e1-05df-45b1-92a5-5cef2c909c85
+status: experimental
+description: Detects a malicious file with a double extension
+references:
+    - https://securelist.ru/head-mare-hacktivists/110069/
+    - https://mitre.securitycode.ru/techniques/T1036.007
+author: c03zi
+date: 2025-05-28
+tags:
+    - attack.t1036.007
+logsource:
+    product: windows
+    service: sysmon
+detection:
+    selection:
+        Image|contains:
+            - '.pdf'
+            - '.doc'
+            - '.docx'
+            - '.xlsx'
+            - '.vsdx'
+            - '.png'
+            - '.jpg'
+        Image|endswith:
+            - '.exe'
+            - '.com'
+            - '.zip'
+            - '.rar'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

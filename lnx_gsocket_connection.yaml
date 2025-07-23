@@ -1,0 +1,30 @@
+action: global
+title: Connection using gsocket
+id: 16123878-ce34-4e93-b445-8649a2e86428
+status: experimental
+description: Detects gsocket connection bypass firewall and NAT
+references:
+    - https://www.gsocket.io/
+author: c03zi
+date: 2025-03-20
+tags:
+    - attack.t1572
+detection:
+    condition: 1 of them
+falsepositives:
+    - administration
+level: medium
+---
+logsource:
+    product: linux
+detection:
+    keywords: '*/gsocket*'
+    condition: keywords
+---
+logsource:
+    product: linux
+    service: auditd
+detection:
+    selection:
+        type: 'EXECVE'
+        a0: 'gsocket*'
