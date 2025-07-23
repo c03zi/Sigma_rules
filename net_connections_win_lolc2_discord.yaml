@@ -1,0 +1,27 @@
+title: LolC2 via discord 
+id: f69963fe-0947-4399-8b76-c0f48ee812cc
+status: experimental
+description: Using C2 via discord
+references:
+    - https://lolc2.github.io/
+    - phdays2025
+author: c03zi
+date: 2025-06-22
+tags:
+    - attack.command-and-control
+    - attack.t1105
+    - attack.t1071
+logsource:
+    category: network_connections
+    product: windows
+detection:
+    selection_api:
+        DestinationHostname|contains: 'discord.com'
+        Image|contains: '/api/'
+    selection_cdn:
+        DestinationHostname|contains: 'cdn.discordapp.com'
+        Image|contains: '/attachments/'
+    condition: 1 of selection_*
+falsepositives:
+    - legal bot
+level: medium
